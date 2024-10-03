@@ -31,6 +31,13 @@ public class Player : MonoBehaviour
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
         transform.position += moveDir * moveSpeed * Time.deltaTime ;
 
+        // transform.rotation 이것을 쓰게되면 Quaternion어쩌고 를 계산해야하고 복잡하므로 아래 방법을 사용
+        // transform.forward = moveDir;
+
+        // 위 처럼 코드 작성시 너무 180회전이 스무스하지 않으므로 아래 코드 사용
+        float rotateSpeed = 10f;
+        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+
     }
 
 
