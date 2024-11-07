@@ -1,15 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private GameInput gameInput;
+    [SerializeField] private LayerMask countersLayerMask; 
 
     private bool isWalking;
+    private Vector3 lastInteractDir;
 
     private void Update(){
+        HandleMovement();
+        HandleInteractions();
+
+    }
+
+    public bool IsWalking(){
+        return isWalking;
+    }
+
+    private void HandleMovement(){
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
@@ -54,12 +67,27 @@ public class Player : MonoBehaviour
         // 위 처럼 코드 작성시 너무 180회전이 스무스하지 않으므로 아래 코드 사용
         float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
-
     }
 
-    public bool IsWalking(){
-        return isWalking;
-    }
+    private void HandleInteractions(){        
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
+        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
+
+        if(moveDir != Vector3.zero){
+            lastInteractDir = moveDir;
+        }
+
+        float interactDistance = 2f;
+
+        // bool canInteract = Physics.Raycast(transform.position, moveDir,out RaycastHit raycastHit, interactDistance);
+        if(Physics.Raycast(transform.position, lastInteractDir ,out RaycastHit raycastHit, interactDistance, countersLayerMask)){
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) { //반환하는 자료형은 bool
+                // Has ClearCounter 
+                clearCounter.Interact();
+            }
+        }
+
+    }
 
 }
