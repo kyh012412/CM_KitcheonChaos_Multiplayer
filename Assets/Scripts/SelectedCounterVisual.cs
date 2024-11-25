@@ -6,7 +6,7 @@ using UnityEngine;
 public class SelectedCounterVisual : MonoBehaviour
 {
     [SerializeField] private ClearCounter clearCounter;
-    [SerializeField] private GameObject visualGameObject;
+    [SerializeField] private GameObject visualGameObject; // 실제 선택된 대상 효과를 나타내는 조금 더 큰 게임오브젝트
     private void Start() {
         Player.Instance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
     }
