@@ -907,6 +907,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d050bb805898774096858b61cd46049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1506035622 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8106346635081860147, guid: 011f7ba8aa805f1428c2b576248b3c7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 851204037}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd96b44e78e9089439699c59c2741d03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1740028893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,10 +1207,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8106346635081860147, guid: 011f7ba8aa805f1428c2b576248b3c7b,
         type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8106346635081860147, guid: 011f7ba8aa805f1428c2b576248b3c7b,
+        type: 3}
       propertyPath: kitchenObjectSO
       value: 
       objectReference: {fileID: 11400000, guid: 2940474eea74b164ea23b05c928b49d4,
         type: 2}
+    - target: {fileID: 8106346635081860147, guid: 011f7ba8aa805f1428c2b576248b3c7b,
+        type: 3}
+      propertyPath: secondClearCounter
+      value: 
+      objectReference: {fileID: 1506035622}
     - target: {fileID: 8664092454062797280, guid: 011f7ba8aa805f1428c2b576248b3c7b,
         type: 3}
       propertyPath: m_Name
