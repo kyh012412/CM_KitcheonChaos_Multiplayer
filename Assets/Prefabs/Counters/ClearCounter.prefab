@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2138748707690038209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2718867977194166555}
+  m_Layer: 6
+  m_Name: CounterTopPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2718867977194166555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138748707690038209}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4963418318692515334}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8664092454062797280
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +64,7 @@ Transform:
   m_Children:
   - {fileID: 2822600258477666421}
   - {fileID: 5305658918472592468}
+  - {fileID: 2718867977194166555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!65 &5596131525219863196
@@ -68,6 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd96b44e78e9089439699c59c2741d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tomatoPrefab: {fileID: 7311687671696349548, guid: b31587d4121471f46b85731afe106df4,
+    type: 3}
+  counterTopPoint: {fileID: 2718867977194166555}
 --- !u!1001 &1772748082674521310
 PrefabInstance:
   m_ObjectHideFlags: 0
