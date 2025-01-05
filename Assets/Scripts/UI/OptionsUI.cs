@@ -9,7 +9,7 @@ public class OptionsUI : MonoBehaviour
 {
     public static OptionsUI Instance{ get; private set; }
 
-    [SerializeField] private Button soundEFfectsButton;
+    [SerializeField] private Button soundEffectsButton;
     [SerializeField] private Button musicButton;
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI soundEffectsText;
@@ -34,10 +34,12 @@ public class OptionsUI : MonoBehaviour
 
     [SerializeField] private Transform pressToRebindKeyTransform;
 
+    private Action onCloseButtonAction;
+
     private void Awake()
     {
         Instance = this;
-        soundEFfectsButton.onClick.AddListener(() => {
+        soundEffectsButton.onClick.AddListener(() => {
             SoundManager.Instance.ChangeVolume();
             UpdateVisual();
         });
@@ -47,6 +49,7 @@ public class OptionsUI : MonoBehaviour
         });
         closeButton.onClick.AddListener(() =>{
             Hide();
+            onCloseButtonAction();
         });
 
         moveUpButton.onClick.AddListener(() =>{RebindBinding(GameInput.Binding.Move_UP);});
@@ -84,8 +87,11 @@ public class OptionsUI : MonoBehaviour
         PauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
     }
 
-    public void Show(){
+    public void Show(Action onCloseButtonAction){
+        this.onCloseButtonAction = onCloseButtonAction;
         gameObject.SetActive(true);
+
+        soundEffectsButton.Select();
     }
 
     public void Hide(){
