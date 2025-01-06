@@ -217,4 +217,8 @@ public class StoveCounter : BaseCounter,IHasProgress
         Debug.Log("input에 해당하는 Burning output이 감지되지 않았음!");
         return null;
     }
+
+    public bool IsFried(){
+        return state == State.Fried;
+    }
 }
