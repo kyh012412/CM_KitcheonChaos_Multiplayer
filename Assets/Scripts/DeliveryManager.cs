@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
 
-public class DeliveryManager : MonoBehaviour
+public class DeliveryManager : NetworkBehaviour
 {
     
     public event EventHandler OnRecipeSpawned;
@@ -16,7 +15,7 @@ public class DeliveryManager : MonoBehaviour
     [SerializeField] private RecipeListSO recipeListSO;
     private List<RecipeSO> waitingRecipeSOList;
 
-    private float spawnRecipeTimer;
+    private float spawnRecipeTimer = 4f;
     private float spawnRecipeTimerMax = 4f;
     private int waitingRecipeMax = 4;
     private int successfulRecipesAmount;
@@ -29,19 +28,32 @@ public class DeliveryManager : MonoBehaviour
 
     private void Update()
     {
+        if(!IsServer){
+            return;
+        }
+
         spawnRecipeTimer -= Time.deltaTime;
         if(spawnRecipeTimer <=0f){
             spawnRecipeTimer = spawnRecipeTimerMax;
 
             if(KitchenGameManager.Instance.IsGamePlaying() && waitingRecipeSOList.Count< waitingRecipeMax){
-                RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
+                int waitingRecipeSOIndex = UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count);
 
-                // Debug.Log(waitingRecipeSO.recipeName);
-                waitingRecipeSOList.Add(waitingRecipeSO);
-
-                OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+                SpawnNewWaitingRecipeClientRpc(waitingRecipeSOIndex);
             }
         }
+    }
+
+    // 관례상? ClientRPC에서 실행되는것은 함수이름끝에 Client rpc를 붙여준다.
+    // ClientRpc는 server와 client 둘다 실행됨 host도 마찬가지
+    // 각자의 프로그램에서 실행되는 메서드
+    [ClientRpc]
+    private void SpawnNewWaitingRecipeClientRpc(int waitingRecipeSOIndex){
+        RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[waitingRecipeSOIndex];
+
+        waitingRecipeSOList.Add(waitingRecipeSO);
+
+        OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     public void DeliverRecipe(PlateKitchenObject plateKitchenObject){
@@ -70,14 +82,7 @@ public class DeliveryManager : MonoBehaviour
 
                 if(plateContentsMatchesRecipe){
                     // Player delivered the correct recipe!
-                    Debug.Log("Player delivered the correct recipe!");
-
-                    successfulRecipesAmount++;
-
-                    waitingRecipeSOList.RemoveAt(i);
-                    
-                    OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-                    OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+                    DeliverCorrectRecipeServerRpc(i);
                     return;
                 }
             }
@@ -85,8 +90,32 @@ public class DeliveryManager : MonoBehaviour
 
         // No matches found
         // Player did not deliver a correct recipe
-        Debug.Log("Player did not deliver a correct recipe");
+        DeliverIncorrectRecipeServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership =false)]
+    private void DeliverIncorrectRecipeServerRpc(){
+        DeliverIncorrectRecipeClientRpc();
+    }
+
+    [ClientRpc]
+    private void DeliverIncorrectRecipeClientRpc(){
         OnRecipeFailed?.Invoke(this, EventArgs.Empty);
+    }
+
+    [ServerRpc(RequireOwnership =false)]
+    private void DeliverCorrectRecipeServerRpc(int waitingRecipeSOListIndex){
+        DeliverCorrectRecipeClientRpc(waitingRecipeSOListIndex);
+    }
+
+    [ClientRpc]
+    private void DeliverCorrectRecipeClientRpc(int waitingRecipeSOListIndex){
+        successfulRecipesAmount++;
+
+        waitingRecipeSOList.RemoveAt(waitingRecipeSOListIndex);
+        
+        OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+        OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
     }
 
     public List<RecipeSO> GetWaitingRecipeSOList(){
