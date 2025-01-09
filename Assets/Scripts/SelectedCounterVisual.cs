@@ -9,7 +9,7 @@ public class SelectedCounterVisual : MonoBehaviour
     [SerializeField] private BaseCounter baseCounter;
     [SerializeField] private GameObject[] visualGameObjectArray; // 실제 선택된 대상 효과를 나타내는 조금 더 큰 게임오브젝트
     private void Start() {
-        Player.Instance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
+        // Player.Instance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
     }
 
     private void Player_OnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
