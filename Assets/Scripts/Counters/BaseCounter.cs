@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BaseCounter : MonoBehaviour,IKitchenObjectParent
+public class BaseCounter : NetworkBehaviour,IKitchenObjectParent
 {
     public static event EventHandler OnAnyObjectPlacedHere;
     public static void ResetStaticData(){
@@ -51,7 +51,6 @@ public class BaseCounter : MonoBehaviour,IKitchenObjectParent
     }
 
     public NetworkObject GetNetworkObject(){
-        // 추후에 수정
-        return null;
+        return NetworkObject;
     }
 }
