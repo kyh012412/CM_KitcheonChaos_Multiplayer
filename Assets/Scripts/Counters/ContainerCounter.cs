@@ -12,7 +12,7 @@ public class ContainerCounter : BaseCounter{
             // Player is not carrying anything
             KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
             
-            InteractLogicServerRpc();
+            InteractLogicServerRpc(); // grab event 소리에 영향
         }
     }
 
