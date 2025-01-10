@@ -237,4 +237,8 @@ public class Player : NetworkBehaviour ,IKitchenObjectParent
     public bool HasKitchenObject(){
         return kitchenObject != null;
     }
+
+    public NetworkObject GetNetworkObject(){
+        return NetworkObject; // 이런식으로 NetworkBehaviour에 부착된 NetworkObject에 접근 할 수 있다.
+    }
 }
