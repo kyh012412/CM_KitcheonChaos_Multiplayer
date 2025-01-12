@@ -21,9 +21,17 @@ public class TutorialUI : MonoBehaviour
     private void Start() {
         GameInput.Instance.OnBindingRebind += GameInput_OnBindingRebind;
         KitchenGameManager.Instance.OnStateChanged += KitchenGameManager_OnStateChanged;
+        KitchenGameManager.Instance.OnLocalPlayerReadyChanged += KitchenGameManager_OnLocalPlayerReadyChanged;
 
         UpdateVisual();
         Show();
+    }
+
+    private void KitchenGameManager_OnLocalPlayerReadyChanged(object sender, EventArgs e)
+    {
+        if(KitchenGameManager.Instance.IsLocalPlayerReady()){
+            Hide();
+        }
     }
 
     private void KitchenGameManager_OnStateChanged(object sender, EventArgs e)
