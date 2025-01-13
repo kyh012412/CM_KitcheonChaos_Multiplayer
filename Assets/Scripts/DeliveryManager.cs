@@ -24,6 +24,8 @@ public class DeliveryManager : NetworkBehaviour
         Instance = this;
 
         waitingRecipeSOList = new List<RecipeSO>();
+
+        // NetworkManager.Singleton.OnClientConnectedCallback += 
     }
 
     private void Update()
